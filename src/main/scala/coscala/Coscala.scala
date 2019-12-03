@@ -20,7 +20,7 @@ object Coscala extends App {
 
   private def stripStore(start: Strip[Boolean]): Store[List[Strip[Boolean]], String] =
     Store(
-      state => state.map(strip => CoscalaOps(strip).render).mkString("\n"),
+      state => state.map(_.render).mkString("\n"),
       List(start)
     )
 
