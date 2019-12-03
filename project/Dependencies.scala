@@ -8,7 +8,7 @@ object Dependencies {
     val scalaTest = "3.1.0"
   }
 
-  val core: Seq[Setting[_]] = deps(
+  val coscala: Seq[Setting[_]] = deps(
     "org.typelevel" %% "cats-core" % Version.cats,
     "org.typelevel" %% "cats-effect" % Version.cats,
     "io.estatico" %% "newtype" % "0.4.3",

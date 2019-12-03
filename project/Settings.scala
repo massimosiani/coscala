@@ -13,7 +13,7 @@ object Settings {
 
   private lazy val shared = general
 
-  lazy val core = shared ++ Dependencies.core
+  lazy val coscala = shared ++ Dependencies.coscala
 
   private lazy val tpolecatScalacOptions = Seq(
     "-deprecation",                      // Emit warning and location for usages of deprecated APIs.
