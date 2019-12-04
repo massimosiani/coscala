@@ -3,7 +3,7 @@ package coscala
 import cats.implicits._
 import cats.data.{State, Store}
 import coscala.types.{Pairing, Strip}
-import Pairing.stateStorePairing
+import Pairing.StateStorePairing
 
 object Coscala extends App {
 
@@ -33,11 +33,12 @@ object Coscala extends App {
 
   private def actions(steps: Int): State[List[Strip[Boolean]], Unit] = {
     if (steps == 0) State.pure(())
-    else for {
-      ls <- State.get
-      _ <- State.modify((list: List[Strip[Boolean]]) => list ++ List(ls.last.w30))
-      result <- actions(steps - 1)
-    } yield result
+    else
+      for {
+        ls <- State.get
+        _ <- State.modify((list: List[Strip[Boolean]]) => list ++ List(ls.last.w30))
+        result <- actions(steps - 1)
+      } yield result
   }
 
   private val actualStripStore: Store[List[Strip[Boolean]], String] = stripStore(start)

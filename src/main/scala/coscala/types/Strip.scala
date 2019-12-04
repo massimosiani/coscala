@@ -2,7 +2,7 @@ package coscala.types
 
 import cats.Comonad
 
-case class Strip[A](as: Seq[A], index: Int) {
+case class Strip[A](as: IndexedSeq[A], index: Int) {
   assert(index >= 0)
   assert(index < as.length)
 
@@ -23,9 +23,7 @@ case class Strip[A](as: Seq[A], index: Int) {
 
 object Strip {
 
-  implicit val stripComonad: StripComonad = new StripComonad
-
-  private[types] class StripComonad extends Comonad[Strip] {
+  implicit object StripComonad extends Comonad[Strip] {
 
     final override def extract[A](x: Strip[A]): A = x.extract
     final override def coflatMap[A, B](fa: Strip[A])(f: Strip[A] => B): Strip[B] = fa.coflatMap(f)

@@ -14,12 +14,10 @@ object Pairing {
   type StateBool[A] = State[StateType, A]
   type StoreBool[A] = Store[StateType, A]
 
-  implicit def stateStorePairing[A]: Pairing[StateBool, StoreBool] = new StateStorePairing
-
   def select[A, B, M[_]: Monad, W[_]: Comonad](mb: M[B])(wwa: W[W[A]])(implicit p: Pairing[M, W]): W[A] =
     p.pair[B, W[A], W[A]](_ => identity)(mb)(wwa)
 
-  private[types] class StateStorePairing extends Pairing[StateBool, StoreBool] {
+  implicit object StateStorePairing extends Pairing[StateBool, StoreBool] {
     override def pair[A, B, C](f: A => B => C): StateBool[A] => StoreBool[B] => C =
       state =>
         store => {
