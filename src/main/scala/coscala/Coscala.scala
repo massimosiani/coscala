@@ -19,19 +19,16 @@ object Coscala extends App {
   }
 
   private def stripStore(start: Strip[Boolean]): Store[List[Strip[Boolean]], String] =
-    Store(
-      state => state.map(_.render).mkString("\n"),
-      List(start)
-    )
+    Store(_.map(_.render).mkString("\n"), List(start))
 
   private val size = 30
   private val iterations = 90
   private val start: Strip[Boolean] = Strip(
-    ((0 until size).map(_ => false) :+ true) ++ (0 until size).map(_ => false),
+    (IndexedSeq.fill(size)(false) :+ true) ++ IndexedSeq.fill(size)(false),
     0
   )
 
-  private def actions(steps: Int): State[List[Strip[Boolean]], Unit] = {
+  private def actions(steps: Int): State[List[Strip[Boolean]], Unit] =
     if (steps == 0) State.pure(())
     else
       for {
@@ -39,10 +36,9 @@ object Coscala extends App {
         _ <- State.modify((list: List[Strip[Boolean]]) => list ++ List(ls.last.w30))
         result <- actions(steps - 1)
       } yield result
-  }
 
   private val actualStripStore: Store[List[Strip[Boolean]], String] = stripStore(start)
 
-  private val solution = Pairing.select(actions(iterations))(actualStripStore.coflatMap(identity))
+  private val solution = Pairing.select(actions(iterations))(actualStripStore.coflatten)
   println(solution.extract)
 }
