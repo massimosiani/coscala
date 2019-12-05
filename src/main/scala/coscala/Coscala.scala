@@ -1,6 +1,6 @@
 package coscala
 
-import cats.implicits._
+import cats.instances.function._
 import coscala.types.{Pairing, Strip}
 import Pairing.StateStorePairing
 import Instances._

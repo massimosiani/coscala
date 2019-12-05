@@ -1,8 +1,8 @@
 package coscala.types
 
-import cats.implicits._
 import cats.data.{State, Store}
 import cats.{Comonad, Monad}
+import cats.instances.function._
 
 abstract class Pairing[M[_]: Monad, W[_]: Comonad] {
   def pair[A, B, C](f: A => B => C): M[A] => W[B] => C
