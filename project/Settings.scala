@@ -1,5 +1,6 @@
 import sbt.Keys._
 import sbt._
+import scalafix.sbt.ScalafixPlugin.autoImport.scalafixSemanticdb
 
 object Settings {
 
@@ -11,7 +12,9 @@ object Settings {
     scalacOptions in (Compile, console) --= Seq("-Ywarn-unused:imports", "-Xfatal-warnings")
   )
 
-  private lazy val shared = general
+  private lazy val scalafix = Seq(addCompilerPlugin(scalafixSemanticdb))
+
+  private lazy val shared = general ++ scalafix
 
   lazy val coscala = shared ++ Dependencies.coscala
 
@@ -26,7 +29,7 @@ object Settings {
     "-language:implicitConversions",     // Allow definition of implicit functions called views
     "-unchecked",                        // Enable additional warnings where generated code depends on assumptions.
     "-Xcheckinit",                       // Wrap field accessors to throw an exception on uninitialized access.
-    "-Xfatal-warnings",                  // Fail the compilation if there are any warnings.
+    //"-Xfatal-warnings",                  // Fail the compilation if there are any warnings.
     "-Xlint:adapted-args",               // Warn if an argument list is modified to match the receiver.
     "-Xlint:constant",                   // Evaluation of a constant arithmetic expression results in an error.
     "-Xlint:delayedinit-select",         // Selecting member of DelayedInit.
@@ -43,6 +46,7 @@ object Settings {
     "-Xlint:stars-align",                // Pattern sequence wildcard must align with sequence component.
     "-Xlint:type-parameter-shadow",      // A local type parameter shadows a type already in scope.
     "-Ymacro-annotations",
+    "-Yrangepos",
     "-Ywarn-dead-code",                  // Warn when dead code is identified.
     "-Ywarn-extra-implicit",             // Warn when more than one implicit parameter section is defined.
     "-Ywarn-numeric-widen",              // Warn when numerics are widened.
