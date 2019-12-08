@@ -11,7 +11,7 @@ import org.typelevel.discipline.scalatest.Discipline
 object arbitraries {
   implicit def arbStrip: Arbitrary[Strip[Int]] = Arbitrary(
     for {
-      list <- Arbitrary.arbitrary[List[Int]] suchThat { _.nonEmpty }
+      list <- Arbitrary.arbitrary[IndexedSeq[Int]] suchThat { _.nonEmpty }
       index <- Gen.choose(0, list.size - 1)
     } yield Strip(list, index)
   )
